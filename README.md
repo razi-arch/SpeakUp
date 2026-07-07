@@ -1,6 +1,6 @@
 # SpeakUp
 
-SpeakUp is a Flutter and Firebase-based AAC speech learning app designed to support children's communication practice in a more interactive and engaging way. The app combines AAC support, vocabulary activities, and speech practice, while giving parents and teachers a dashboard to monitor progress and review learning outcomes.
+My final-year project as a Diploma in Computer Science student. SpeakUp is a Flutter and Firebase-based AAC speech learning app designed to support children's communication practice in a more interactive and engaging way. The app combines AAC support, vocabulary activities, and speech practice, while giving parents and teachers a dashboard to monitor progress and review learning outcomes.
 
 ## Project Overview
 
