@@ -1,16 +1,25 @@
-# smart_aac_speech_learning
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+SpeakUp
+SpeakUp is a Flutter and Firebase-based AAC speech learning app designed to support children's communication practice in a more interactive and engaging way. The app combines AAC support, vocabulary activities, and speech practice, while giving parents and teachers a dashboard to monitor progress and review learning outcomes.
+Project Overview
+SpeakUp was built to support children who are developing communication and speech skills. It provides learner-friendly activities on the child side and progress tracking tools on the parent or teacher side.
+Main Features
+AAC communication board for everyday expression and interaction
+Vocabulary learning activities with guided and fill-in-the-blank modes
+Speech practice with recording and review flow
+Reward and star system to encourage continued practice
+Parent and teacher dashboard for monitoring sessions and learning progress
+Child profile management and personalized learning content
+Tech Stack
+Flutter
+Firebase Authentication
+Cloud Firestore
+Firebase Storage
+Riverpod
+GoRouter
+Getting Started
+Clone the repository.
+Run flutter pub get.
+Configure Firebase for your platform.
+Run the app with flutter run.
+Purpose
+This project focuses on making speech and communication practice more accessible, structured, and motivating for children, while also helping adults track improvement over time.
