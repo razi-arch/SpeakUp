@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1013239437397",
+    "project_id": "speakup-69ed7",
+    "storage_bucket": "speakup-69ed7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013239437397:android:00e05e30bc8ec500c79cdc",
+        "android_client_info": {
+          "package_name": "com.example.smart_aac_speech_learning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1013239437397-vcadsg4tdoo03akf38vfg9fnvhbvks5j.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNAy-8hFhqZWF0rprZh2Dc5NR3xikoB9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1013239437397-vcadsg4tdoo03akf38vfg9fnvhbvks5j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

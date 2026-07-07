@@ -1,0 +1,85 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Returns true when the caller is in the child's linkedUsers array.
+    // Costs one extra Firestore read per rule evaluation.
+    function isLinked(childId) {
+      return isSignedIn() &&
+        request.auth.uid in
+          get(/databases/$(database)/documents/children/$(childId)).data.linkedUsers;
+    }
+
+    // ── Admin user profiles ───────────────────────────────────────────────────
+    // Each admin can only read and write their own document.
+    match /users/{uid} {
+      allow read, write: if isOwner(uid);
+    }
+
+    // ── Children ──────────────────────────────────────────────────────────────
+    match /children/{childId} {
+      // Any linked user can read the child's profile.
+      allow read: if isSignedIn() &&
+        request.auth.uid in resource.data.linkedUsers;
+
+      // Only a signed-in user who is already in the new linkedUsers list can
+      // create a child document (they link themselves at creation time).
+      allow create: if isSignedIn() &&
+        request.auth.uid in request.resource.data.linkedUsers;
+
+      allow update: if isSignedIn() && (
+        // Normal update by any currently-linked user.
+        request.auth.uid in resource.data.linkedUsers ||
+        // Invite-code redemption: the only change is appending the caller's
+        // own uid to linkedUsers — all other fields must remain identical.
+        (request.resource.data.diff(resource.data).affectedKeys()
+           .hasOnly(['linkedUsers']) &&
+         request.resource.data.linkedUsers.hasAll(resource.data.linkedUsers))
+      );
+
+      // Deletion is not permitted — deactivate via isActiveOnDevice instead.
+      allow delete: if false;
+    }
+
+    // ── Learning sessions (sub-collection) ───────────────────────────────────
+    match /sessions/{childId}/sessions/{sessionId} {
+      allow read, write: if isLinked(childId);
+    }
+
+    // ── Stars & badges ────────────────────────────────────────────────────────
+    match /rewards/{childId} {
+      allow read, write: if isLinked(childId);
+    }
+
+    // ── Vocabulary items (sub-collection) ────────────────────────────────────
+    match /vocab/{childId}/items/{itemId} {
+      allow read, write: if isLinked(childId);
+    }
+
+    // ── Speech recordings (sub-collection) ───────────────────────────────────
+    match /recordings/{childId}/recordings/{recordingId} {
+      allow read, write: if isLinked(childId);
+    }
+
+    // ── Invite codes ──────────────────────────────────────────────────────────
+    // Any signed-in user can read a code to validate it before redemption.
+    // Create is restricted to the code's own createdBy field.
+    // Update marks a code as used during the redemption transaction.
+    // Deletion is not permitted.
+    match /inviteCodes/{codeId} {
+      allow read:   if isSignedIn();
+      allow create: if isSignedIn() &&
+        request.resource.data.createdBy == request.auth.uid;
+      allow update: if isSignedIn();
+      allow delete: if false;
+    }
+  }
+}

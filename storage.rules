@@ -1,0 +1,25 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function childDoc(childId) {
+      return firestore.get(/databases/(default)/documents/children/$(childId));
+    }
+
+    function isLinked(childId) {
+      return isSignedIn() &&
+        request.auth.uid in childDoc(childId).data.linkedUsers;
+    }
+
+    match /recordings/{childId}/{fileName} {
+      allow read, write: if isLinked(childId);
+    }
+
+    match /vocab_images/{childId}/{fileName} {
+      allow read, write: if isLinked(childId);
+    }
+  }
+}
